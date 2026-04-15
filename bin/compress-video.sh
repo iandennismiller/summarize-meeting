@@ -4,7 +4,7 @@ IN_FILE="$1"
 OUT_FILE="$2"
 
 if [ -z "$IN_FILE" ] || [ -z "$OUT_FILE" ]; then
-  echo "Usage: $0 <input-audio-file> <output-text-file>"
+  echo "Usage: $0 <input-video-file> <output-video-file> (must have .mp4 extension)"
   exit 1
 fi
 
