@@ -36,3 +36,13 @@ cd ~/Work/whisper.cpp
     --input-file /tmp/meeting.txt \
     --output-file /tmp/summary.txt
 ```
+
+## quick guide: build whisper.cpp
+
+```bash
+git clone https://github.com/ggml-org/whisper.cpp
+cd whisper.cpp
+
+cmake --build build -j --config Release
+cmake -B build
+```
