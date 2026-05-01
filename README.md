@@ -25,16 +25,23 @@ ffmpeg -i in.mp4 /tmp/in.wav
 cd ~/Work/whisper.cpp
 
 # transcribe audio with whisper.cpp
-~/Work/summarize-meeting/bin/transcribe.sh \
+~/Work/summarize-meeting/bin/transcribe-diarize.sh \
     /tmp/in.wav \
     /tmp/meeting-transcript
 
 # summarize transcript with LLM
 ~/Work/summarize-meeting/bin/summarize.py \
     --endpoint http://llama-api.mgmt/v1 \
-    --model google/gemma4-26b-a4b \
-    --input-file /tmp/meeting.txt \
+    --model qwen/qwen3.6-27b \
+    --input-file /tmp/meeting-transcript.txt \
     --output-file /tmp/summary.txt
+
+# generate chronology of meeting
+~/Work/summarize-meeting/bin/chronology.py \
+    --endpoint http://llama-api.mgmt/v1 \
+    --model qwen/qwen3.6-27b \
+    --input-file /tmp/meeting-transcript.txt \
+    --output-file /tmp/chronology.txt
 ```
 
 ## quick guide: build whisper.cpp

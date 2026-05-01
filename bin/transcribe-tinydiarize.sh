@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MODEL_FILE=models/ggml-large-v3-turbo.bin
+MODEL_FILE=models/ggml-small.en-tdrz.bin
 
 IN_FILE="$1"
 OUT_FILE="$2"
@@ -17,12 +17,12 @@ fi
 
 if [ ! -f "$MODEL_FILE" ]; then
   echo "Model file not found: $MODEL_FILE"
-  sh ./models/download-ggml-model.sh large-v3-turbo
-  echo "Model downloaded"
+  wget https://huggingface.co/akashmjn/tinydiarize-whisper.cpp/resolve/main/ggml-small.en-tdrz.bin
+      echo "Model downloaded"
 fi
 
 ./build/bin/whisper-cli \
-    --diarize \
+    --tinydiarize \
     --model "$MODEL_FILE" \
     --file "$IN_FILE" \
     --output-txt \
