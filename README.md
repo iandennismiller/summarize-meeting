@@ -18,29 +18,35 @@ The notebook will:
 ## Script method
 
 ```bash
-# convert audio file as needed
-ffmpeg -i in.mp4 /tmp/in.wav
+# configure locations and model
 
-# switch to whisper.cpp path
+export GIT_REPO=$HOME/Work/summarize-meeting
+export LLAMA_API=http://llama-api.mgmt/v1
+export LLAMA_MODEL=qwen/qwen3.6-27b
+
+# switch to whisper.cpp path, then transcribe audio with whisper.cpp
+# the .txt extension is automatically added to to yield `transcript.txt`
+
 cd ~/Work/whisper.cpp
 
-# transcribe audio with whisper.cpp
-~/Work/summarize-meeting/bin/transcribe-diarize.sh \
-    /tmp/in.wav \
-    /tmp/meeting-transcript
+"$GIT_REPO"/bin/transcribe-diarize.sh \
+    /tmp/meeting.wav \
+    /tmp/transcript
 
 # summarize transcript with LLM
-~/Work/summarize-meeting/bin/summarize.py \
-    --endpoint http://llama-api.mgmt/v1 \
-    --model qwen/qwen3.6-27b \
-    --input-file /tmp/meeting-transcript.txt \
+
+"$GIT_REPO"/bin/summarize.py \
+    --endpoint "$LLAMA_API" \
+    --model "$LLAMA_MODEL" \
+    --input-file /tmp/transcript.txt \
     --output-file /tmp/summary.txt
 
 # generate chronology of meeting
-~/Work/summarize-meeting/bin/chronology.py \
-    --endpoint http://llama-api.mgmt/v1 \
-    --model qwen/qwen3.6-27b \
-    --input-file /tmp/meeting-transcript.txt \
+
+"$GIT_REPO"/bin/chronology.py \
+    --endpoint "$LLAMA_API" \
+    --model "$LLAMA_MODEL" \
+    --input-file /tmp/transcript.txt \
     --output-file /tmp/chronology.txt
 ```
 

@@ -38,8 +38,9 @@ Act as a professional minute-taker. Please analyze the following meeting transcr
 Requirements:
 
 - Structure the output as a table: [Time/Order] | [Event/Topic] | [Key Details].
+- Create about one entry per minute of discussion, but adjust as needed to capture topic changes and important details.
 - Estimate the time for each topic based on how many words are spent discussing it, assuming an average speaking rate of 60 words per minute.
-- Keep descriptions concise and factual.
+- Descriptions should be factual and detailed, to support review even after time has passed and details have been forgotten.
 </System>
 
 <User Input>
