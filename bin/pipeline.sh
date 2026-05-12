@@ -56,7 +56,7 @@ fi
 # Set absolute paths for binaries and outputs
 PROJECT_ROOT=$(pwd)
 PIPELINE_BIN_DIR="$PROJECT_ROOT/bin"
-TRANSCRIPT_FILE="$OUTPUT_DIR/transcript.txt"
+TRANSCRIPT_FILE="$OUTPUT_DIR/transcript"
 SUMMARY_FILE="$OUTPUT_DIR/summary.txt"
 CHRONOLOGY_FILE="$OUTPUT_DIR/chronology.txt"
 
@@ -76,18 +76,18 @@ echo "[1/3] Transcribing audio..."
     "$PIPELINE_BIN_DIR/transcribe-diarize.sh" "$AUDIO_FILE" "$TRANSCRIPT_FILE"
 )
 
-if [ ! -f "$TRANSCRIPT_FILE" ]; then
-    echo "Error: Transcription failed. $TRANSCRIPT_FILE was not created."
+if [ ! -f "${TRANSCRIPT_FILE}.txt" ]; then
+    echo "Error: Transcription failed. ${TRANSCRIPT_FILE}.txt was not created."
     exit 1
 fi
-echo "✓ Transcription complete: $TRANSCRIPT_FILE"
+echo "✓ Transcription complete: ${TRANSCRIPT_FILE}.txt"
 
 # Step 2: Summarization
 echo "[2/3] Generating summary..."
 "$PIPELINE_BIN_DIR/summarize.py" \
     --endpoint "$LLM_ENDPOINT" \
     --model "$LLM_MODEL" \
-    --input-file "$TRANSCRIPT_FILE" \
+    --input-file "${TRANSCRIPT_FILE}.txt" \
     --output-file "$SUMMARY_FILE"
 
 if [ ! -f "$SUMMARY_FILE" ]; then
@@ -101,7 +101,7 @@ echo "[3/3] Generating chronology..."
 "$PIPELINE_BIN_DIR/chronology.py" \
     --endpoint "$LLM_ENDPOINT" \
     --model "$LLM_MODEL" \
-    --input-file "$TRANSCRIPT_FILE" \
+    --input-file "${TRANSCRIPT_FILE}.txt" \
     --output-file "$CHRONOLOGY_FILE"
 
 if [ ! -f "$CHRONOLOGY_FILE" ]; then
@@ -113,6 +113,6 @@ echo "✓ Chronology complete: $CHRONOLOGY_FILE"
 echo "-----------------------------------------"
 echo "Pipeline finished successfully!"
 echo "Results saved in $OUTPUT_DIR:"
-echo "  - Transcript: $TRANSCRIPT_FILE"
+echo "  - Transcript: ${TRANSCRIPT_FILE}.txt"
 echo "  - Summary: $SUMMARY_FILE"
 echo "  - Chronology: $CHRONOLOGY_FILE"
