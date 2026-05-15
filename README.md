@@ -15,6 +15,14 @@ export OUTPUT_DIR=/tmp
 ./bin/pipeline.sh path/to/meeting.wav
 ```
 
+### One-line example
+
+Here's the one-liner I use:
+
+```bash
+workon summarize-meeting && WHISPER_CPP_DIR=$HOME/Work/whisper.cpp LLM_ENDPOINT=http://llama-api.mgmt/v1 LLM_MODEL=qwen/qwen3.6-27b OUTPUT_DIR=$PWD/var ./bin/pipeline.sh "audio.wav"
+```
+
 ## Jupyter notebook
 
 1. Open `meeting_summary_pipeline.ipynb` in JupyterLab (Python 3 kernel).
