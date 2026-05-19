@@ -15,6 +15,39 @@ export OUTPUT_DIR=/tmp
 ./bin/pipeline.sh path/to/meeting.wav
 ```
 
+### Step by step
+
+```bash
+# switch to whisper.cpp dir
+export GIT_DIR=$PWD
+cd $HOME/Work/whisper.cpp
+
+# transcribe audio
+$GIT_DIR/bin/transcribe-diarize.sh \
+  /tmp/meeting.wav \
+  /tmp/transcript
+
+# switch back
+cd $GIT_DIR
+
+# virtualenv
+workon summarize-meeting
+
+# summarize transcript with LLM
+./bin/summarize.py \
+  --endpoint "http://llama-api.mgmt/v1" \
+  --model "qwen/qwen3.6-27b" \
+  --input-file /tmp/transcript.txt \
+  --output-file /tmp/summary.txt
+
+# generate chronology of meeting
+./bin/chronology.py \
+  --endpoint "http://llama-api.mgmt/v1" \
+  --model "qwen/qwen3.6-27b" \
+  --input-file /tmp/transcript.txt \
+  --output-file /tmp/chronology.txt
+```
+
 ### One-line example
 
 Here's the one-liner I use:
